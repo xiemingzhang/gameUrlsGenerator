@@ -1,0 +1,25 @@
+{
+  "name": "wh-gameurls-generator",
+  "version": "1.0.6",
+  "description": "一键生成所有gameUrl的json文件",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/xiemingzhang/gameUrlsGenerator.git"
+  },
+  "keywords": [
+    "node"
+  ],
+  "author": "xiemingzhang.ok@163.com",
+  "bin": {
+    "wh-gameurls-generator": "./index.js"
+  },
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/xiemingzhang/gameUrlsGenerator/issues"
+  },
+  "homepage": "https://github.com/xiemingzhang/gameUrlsGenerator#readme"
+}
