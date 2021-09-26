@@ -30,6 +30,7 @@ let keys = Object.keys(bundles).filter((item)=>{
         return item
     }
 })
+
 keys = keys.sort((item1, item2)=>{
     return item1.split("_")[0].split("AiGame")[1] - item2.split("_")[0].split("AiGame")[1] 
 })
