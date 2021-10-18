@@ -13,8 +13,9 @@ let LiveGameUrlsData = {
 }
 
 let targetFile = process.argv[2]
+let buildLocation = path.resolve(targetFile, "../../../")
 let parentLocation = path.resolve(targetFile, "../../")
-let gameLocation = path.resolve(parentLocation, "./game")
+let gameLocation = path.resolve(parentLocation, "../game")
 
 let indexFile = path.resolve(parentLocation, "./index.html")
 if(fs.existsSync(gameLocation)){
@@ -83,6 +84,12 @@ function createGameProj(name) {
     let _Str = IndexStr.replace(/\.\//g, '../')
     _Str = _Str.replace("XXXXXX", name)
 
+    _Str = _Str.replace("internalID", bundles["internal"])
+    _Str = _Str.replace("WH_frameID", bundles["WH_frame"])
+    _Str = _Str.replace("resourcesID", bundles["resources"])
+    _Str = _Str.replace("MAIN", "main")
+    _Str = _Str.replace("mainID", bundles["main"])
+
     _Str = _Str.replace("FBXID", bundles["FBX"])
     _Str = _Str.replace("LoadingID", bundles["Loading"])
     _Str = _Str.replace("TeachLayerID", bundles["TeachLayer"])
@@ -93,6 +100,9 @@ function createGameProj(name) {
     
     fs.writeFileSync(itemFile, _Str)
 }
+
+// fs.copySync(parentLocation + "assets", buildLocation + "assets", { overwrite: true })
+fs.copySync(parentLocation, buildLocation + "/game")
 
 AiGameKeys.forEach((item) => {
     let _obj = {}
@@ -120,18 +130,29 @@ LiveGameKeys.map((item) => {
     createGameProj(item)
 })
 
-console.log("settings.bundleVers")
-console.log(`"bundleVers": {
-    "internal": "${bundles["internal"]}",
-    "WH_frame": "${bundles["WH_frame"]}",
-    "main": "${bundles["main"]}"
-}
-`)
-
 console.log("LiveGameUrlsData")
 console.log(JSON.stringify(LiveGameUrlsData, null, 4))
 
 console.log("AIGameUrlsData")
 console.log(JSON.stringify(AIGameUrlsData, null, 4))
+
+// console.log("settings.bundleVers")
+// if(bundles["resources"]){
+//     console.log(`"bundleVers": {
+//         "internal": "${bundles["internal"]}",
+//         "WH_frame": "${bundles["WH_frame"]}",
+//         "resources": "${bundles["resources"]}",
+//         "main": "${bundles["main"]}"
+//     }
+//     `)
+// }else{
+//     console.log(`"bundleVers": {
+//         "internal": "${bundles["internal"]}",
+//         "WH_frame": "${bundles["WH_frame"]}",
+//         "main": "${bundles["main"]}"
+//     }
+//     `) 
+// }
+
 
 
