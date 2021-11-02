@@ -128,6 +128,7 @@ function createGameProj(gameName) {
     _Str = _Str.replace("ScoreNumID", bundles["ScoreNum"])
     _Str = _Str.replace("AddScoreID", bundles["AddScore"])
     _Str = _Str.replace("GAMEID", bundles[gameName])
+    _Str = _Str.replace("AiGame6_JumpID", bundles["AiGame6_Jump"])
     
     // 生成对应game的index.html
     fs.writeFileSync(itemFile, _Str)
