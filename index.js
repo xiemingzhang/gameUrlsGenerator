@@ -11,6 +11,9 @@ let AIGameUrlsData = {
 let LiveGameUrlsData = {
 	data: []
 }
+let CompetitionGameUrlsData = {
+	data: []
+}
 
 let targetFile = process.argv[2]
 let buildLocation = path.resolve(targetFile, "../../../")
@@ -51,6 +54,7 @@ let bundles = jsonObj.bundleVers
  
 let AiGameKeys = []
 let LiveGameKeys = []
+let CompetitionGameKeys = []
 let bundleVers = {}
 Object.keys(bundles).forEach((item)=>{
     if(item.startsWith("AiGame")){
@@ -58,6 +62,9 @@ Object.keys(bundles).forEach((item)=>{
     }
     if(item.startsWith("LiveGame")){
         LiveGameKeys.push(item)
+    }
+    if(item.startsWith("CompetitionGame")){
+        CompetitionGameKeys.push(item)
     }
     if(item == "internal"
     || item == "WH_frame"
@@ -73,6 +80,9 @@ AiGameKeys = AiGameKeys.sort((item1, item2)=>{
 })
 LiveGameKeys = LiveGameKeys.sort((item1, item2)=>{
     return item1.split("_")[0].split("LiveGame")[1] - item2.split("_")[0].split("LiveGame")[1] 
+})
+CompetitionGameKeys = CompetitionGameKeys.sort((item1, item2)=>{
+    return item1.split("_")[0].split("CompetitionGame")[1] - item2.split("_")[0].split("LiveGame")[1] 
 })
 
 function findNeedCopyFile() {
@@ -120,15 +130,20 @@ function createGameProj(gameName) {
     _Str = _Str.replace("MAIN", "main")
     _Str = _Str.replace("mainID", bundles["main"])
 
-    _Str = _Str.replace("OutWarningID", bundles["OutWarning"])
+    _Str = _Str.replace("ScoreNumID", bundles["ScoreNum"])
+    _Str = _Str.replace("AddScoreID", bundles["AddScore"])
+
+    // _Str = _Str.replace("OutWarningID", bundles["OutWarning"])
     _Str = _Str.replace("FBXID", bundles["FBX"])
     _Str = _Str.replace("LoadingID", bundles["Loading"])
     _Str = _Str.replace("TeachLayerID", bundles["TeachLayer"])
     _Str = _Str.replace("TrainLayerID", bundles["TrainLayer"])
-    _Str = _Str.replace("ScoreNumID", bundles["ScoreNum"])
-    _Str = _Str.replace("AddScoreID", bundles["AddScore"])
+
+    _Str = _Str.replace("CompetitionCommonID", bundles["CompetitionCommon"])
+
     _Str = _Str.replace("GAMEID", bundles[gameName])
-    _Str = _Str.replace("AiGame6_JumpID", bundles["AiGame6_Jump"])
+    // _Str = _Str.replace("AiGame6_JumpID", bundles["AiGame6_Jump"])
+    
     
     // 生成对应game的index.html
     fs.writeFileSync(itemFile, _Str)
@@ -168,11 +183,28 @@ LiveGameKeys.map((item) => {
     createGameProj(item)
 })
 
+CompetitionGameKeys.map((item) => {
+    let _obj = {}
+    _obj["id"] = item.split("_")[0].split("CompetitionGame")[1]
+    _obj["fragmentName"] = ""
+    // _obj["gameUrl"] = prodUrlRoot + "?gameID=" + bundles[item] + "&liveGameName=" + item
+    _obj["gameUrl"] = prodUrlRoot + item
+    // _obj["gameCount"] = 40
+    // _obj["gameDuration"] = 60
+    CompetitionGameUrlsData.data.push(_obj)
+
+    createGameProj(item)
+})
+
 console.log("LiveGameUrlsData")
 console.log(JSON.stringify(LiveGameUrlsData, null, 4))
 
+console.log("CompetitionGameUrlsData")
+console.log(JSON.stringify(CompetitionGameUrlsData, null, 4))
+
 console.log("AIGameUrlsData")
 console.log(JSON.stringify(AIGameUrlsData, null, 4))
+
 
 // console.log("settings.bundleVers")
 // if(bundles["resources"]){
