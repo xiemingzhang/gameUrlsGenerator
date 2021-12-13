@@ -139,6 +139,7 @@ function createGameProj(gameName) {
     _Str = _Str.replace("TeachLayerID", bundles["TeachLayer"])
     _Str = _Str.replace("TrainLayerID", bundles["TrainLayer"])
 
+    _Str = _Str.replace("CompetitionItemsID", bundles["CompetitionItems"])
     _Str = _Str.replace("CompetitionCommonID", bundles["CompetitionCommon"])
 
     _Str = _Str.replace("GAMEID", bundles[gameName])
