@@ -19,12 +19,18 @@ let targetFile = process.argv[2]
 let buildLocation = path.resolve(targetFile, "../../../")
 let parentLocation = path.resolve(targetFile, "../../")
 let gameLocation = path.resolve(parentLocation, "../aiGame")
+let assetsLocation = path.resolve(parentLocation, "../assets")
 
 let indexFile = path.resolve(parentLocation, "./index.html")
 if(fs.existsSync(gameLocation)){
     fs.emptyDirSync(gameLocation)
 }else{
     fs.mkdirSync(gameLocation)
+}
+if(fs.existsSync(assetsLocation)){
+    fs.emptyDirSync(assetsLocation)
+}else{
+    fs.mkdirSync(assetsLocation)
 }
 
 // console.log(targetFile)
